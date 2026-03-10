@@ -20,7 +20,7 @@ interface PostCardProps {
 
 export function PostCard({ post, featured = false, className }: PostCardProps) {
   return (
-    <Link href={`/posts/${post.slug}`} className="group block">
+    <Link href={`/blog/posts/${post.slug}`} className="group block">
       <article
         className={cn(
           "relative rounded-xl border transition-all duration-500",
