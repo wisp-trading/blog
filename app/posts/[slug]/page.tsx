@@ -4,8 +4,28 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { MDXRemote } from "next-mdx-remote/rsc"
+import rehypePrettyCode from "rehype-pretty-code"
+import remarkGfm from "remark-gfm"
 import { getPost, getPostSlugs } from "@/lib/posts"
 import { formatDate } from "@/lib/utils"
+
+const mdxOptions = {
+  mdxOptions: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [
+      [
+        rehypePrettyCode,
+        {
+          // Dark theme that matches the Wisp aesthetic
+          theme: "github-dark-dimmed",
+          keepBackground: false, // We control the bg via CSS
+        },
+      ],
+    ],
+  },
+}
+
+const SITE_URL = "https://blog.usewisp.dev"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -28,15 +48,21 @@ export async function generateMetadata({
   const { slug } = await params
   try {
     const post = getPost(slug)
+    const url = `${SITE_URL}/posts/${slug}`
     return {
       title: post.title,
       description: post.excerpt,
+      authors: post.author ? [{ name: post.author }] : undefined,
+      alternates: { canonical: url },
       openGraph: {
         title: post.title,
         description: post.excerpt,
+        url,
         type: "article",
         publishedTime: post.date,
+        authors: post.author ? [post.author] : undefined,
         tags: post.tags,
+        siteName: "Wisp Blog",
       },
       twitter: {
         card: "summary_large_image",
@@ -61,8 +87,42 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound()
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      "@type": "Organization",
+      name: post.author ?? "Wisp Team",
+      url: "https://usewisp.dev",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Wisp",
+      url: "https://usewisp.dev",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://usewisp.dev/logo-transparent.svg",
+      },
+    },
+    url: `${SITE_URL}/posts/${post.slug}`,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/posts/${post.slug}`,
+    },
+    keywords: post.tags.join(", "),
+    inLanguage: "en-US",
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
 
       <main className="relative z-10 min-h-screen pt-32 pb-16 px-6 md:px-12">
@@ -77,7 +137,7 @@ export default async function PostPage({ params }: PostPageProps) {
           </Link>
 
           {/* Article header */}
-          <header className="max-w-[720px] mb-12">
+          <header className="max-w-[720px] mx-auto mb-12">
             {/* Tags */}
             {post.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-6">
@@ -116,13 +176,13 @@ export default async function PostPage({ params }: PostPageProps) {
             </div>
           </header>
 
-          {/* Article body — MDXRemote is a React Server Component, no "use client" needed */}
-          <article className="prose">
-            <MDXRemote source={post.content} />
+          {/* Article body */}
+          <article className="prose mx-auto">
+            <MDXRemote source={post.content} options={mdxOptions as any} />
           </article>
 
           {/* Post footer */}
-          <div className="max-w-[720px] mt-16 pt-8 border-t border-white/10">
+          <div className="max-w-[720px] mx-auto mt-16 pt-8 border-t border-white/10">
             <div className="flex items-center justify-between">
               <Link
                 href="/"

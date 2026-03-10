@@ -1,0 +1,18 @@
+# Wisp Blog
+
+> Technical blog for the Wisp open-source trading bot framework. Covers algorithmic trading, Go development, agentic strategies, and framework tutorials.
+
+Wisp is an open-source trading bot framework written in Go. It supports multiple exchanges (Polymarket, Hyperliquid, Paradex, Binance), includes a backtesting engine, paper trading mode, and a first-class agentic interface for LLM-driven strategies.
+
+## Blog
+
+- [Home](https://blog.usewisp.dev): Index of all posts
+- [Introducing Wisp](https://blog.usewisp.dev/posts/introducing-wisp): Overview of the framework, why Go, batteries-included features
+- [Agentic Trading](https://blog.usewisp.dev/posts/agentic-trading-strategies): How LLMs can run trading strategies via Wisp's agentic interface
+- [Polymarket Integration](https://blog.usewisp.dev/posts/polymarket-integration): Tutorial for connecting to Polymarket and placing first trades
+
+## Related
+
+- [Wisp Landing Page](https://usewisp.dev): Main product site
+- [Wisp Docs](https://usewisp.dev/docs): Full framework documentation
+- [GitHub](https://github.com/wisp-trading/wisp): Source code, issues, discussions

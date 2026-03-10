@@ -23,7 +23,10 @@ const geistMono = Geist_Mono({
   display: "swap",
 })
 
+const SITE_URL = "https://blog.usewisp.dev"
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Wisp Blog — Trading Bot Framework",
     template: "%s | Wisp Blog",
@@ -39,19 +42,46 @@ export const metadata: Metadata = {
     "crypto trading",
     "trading strategy",
     "LLM trading",
+    "prediction markets",
+    "Polymarket",
+    "Hyperliquid",
   ],
+  authors: [{ name: "Wisp Team", url: "https://usewisp.dev" }],
+  creator: "Wisp Team",
+  publisher: "Wisp",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     title: "Wisp Blog",
     description:
       "Insights on algorithmic trading, Go development, and agentic strategies.",
-    url: "https://blog.usewisp.dev",
+    url: SITE_URL,
     siteName: "Wisp Blog",
     type: "website",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
     title: "Wisp Blog",
     description: "Insights on algorithmic trading, Go development, and agentic strategies.",
+    creator: "@wisptrading",
+    site: "@wisptrading",
+  },
+  alternates: {
+    canonical: SITE_URL,
+  },
+  // llms.txt — agentic discoverability
+  other: {
+    "llms-txt": `${SITE_URL}/llms.txt`,
   },
 }
 

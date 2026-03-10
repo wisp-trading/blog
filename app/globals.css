@@ -194,11 +194,12 @@ body {
   font-family: var(--font-mono);
 }
 
-.prose pre {
-  background: var(--wisp-bg-code);
+.prose pre,
+.prose [data-rehype-pretty-code-figure] pre {
+  background: var(--wisp-bg-code) !important;
   border: 1px solid var(--wisp-border-default);
   border-radius: var(--wisp-radius-lg);
-  padding: 1.25rem;
+  padding: 1.25rem 1.5rem;
   overflow-x: auto;
   margin: 2rem 0;
   font-size: 0.875rem;
@@ -206,12 +207,116 @@ body {
   line-height: 1.7;
 }
 
-.prose pre code {
-  background: none;
-  color: var(--wisp-text-secondary);
+.prose pre code,
+.prose [data-rehype-pretty-code-figure] code {
+  background: none !important;
   border: none;
   padding: 0;
   font-size: inherit;
+  font-family: inherit;
+  /* rehype-pretty-code sets colours inline — don't override */
+}
+
+/* Language label shown above code blocks */
+.prose [data-rehype-pretty-code-figure] [data-rehype-pretty-code-title] {
+  display: inline-block;
+  background: var(--wisp-bg-elevated);
+  border: 1px solid var(--wisp-border-default);
+  border-bottom: none;
+  border-radius: var(--wisp-radius-lg) var(--wisp-radius-lg) 0 0;
+  padding: 0.3rem 0.875rem;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--wisp-text-muted);
+  letter-spacing: 0.04em;
+  margin-bottom: -1px; /* merges visually with the pre border */
+}
+
+/* When a title is present, square the top-left corner of the pre */
+.prose [data-rehype-pretty-code-figure]:has([data-rehype-pretty-code-title]) pre {
+  border-top-left-radius: 0;
+}
+
+/* Individual code lines */
+.prose [data-line] {
+  display: block;
+  padding: 0 0.25rem;
+}
+
+/* Highlighted lines */
+.prose [data-highlighted-line] {
+  background: rgba(0, 212, 255, 0.06);
+  border-left: 2px solid var(--wisp-teal);
+  padding-left: calc(0.25rem - 2px);
+  margin-left: -1.5rem;
+  padding-right: 0.25rem;
+  width: calc(100% + 3rem);
+}
+
+/* ── Tables (remark-gfm) ──────────────────────────────────────────────────── */
+
+/* Wrapper div handles horizontal scroll without breaking table layout */
+.prose :where(table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  border: 1px solid var(--wisp-border-default);
+  border-radius: var(--wisp-radius-lg);
+  overflow: hidden; /* clips radius on cells */
+}
+
+.prose thead tr {
+  background: var(--wisp-bg-tertiary);
+  border-bottom: 1px solid var(--wisp-border-strong);
+}
+
+.prose th {
+  text-align: center;
+  padding: 0.625rem 1.25rem;
+  color: var(--wisp-text-primary);
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+/* First column stays left-aligned */
+.prose th:first-child {
+  text-align: left;
+}
+
+.prose th + .prose th,
+.prose th + th {
+  border-left: 1px solid var(--wisp-border-subtle);
+}
+
+.prose td {
+  padding: 0.625rem 1.25rem;
+  border-bottom: 1px solid var(--wisp-border-subtle);
+  color: var(--wisp-text-secondary);
+  vertical-align: middle;
+  text-align: center;
+}
+
+/* First column stays left-aligned */
+.prose td:first-child {
+  text-align: left;
+}
+
+.prose td + td {
+  border-left: 1px solid var(--wisp-border-subtle);
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.prose tbody tr:hover td {
+  background: var(--wisp-bg-secondary);
 }
 
 .prose hr {
