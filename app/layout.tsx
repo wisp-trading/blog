@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next"
 import { Playfair_Display, Inter, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { GoogleAnalytics } from "@next/third-parties/google"
 import "./globals.css"
 
 const playfair = Playfair_Display({
@@ -102,6 +103,7 @@ export default function RootLayout({
       <body className="antialiased">
         <div className="noise-overlay" />
         {children}
+        <GoogleAnalytics gaId="G-WSNWFHXWJ3" />
         <Analytics />
         <SpeedInsights />
       </body>
