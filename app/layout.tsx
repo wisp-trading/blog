@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
   display: "swap",
 })
 
-const SITE_URL = "https://blog.usewisp.dev"
+const SITE_URL = "https://usewisp.dev/blog"
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

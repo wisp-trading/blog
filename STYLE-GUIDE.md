@@ -161,7 +161,7 @@ Wide content:       960px  ← full-bleed code, images
 │ NAVBAR: Wisp Blog | BLOG  DOCS  GITHUB               ● OPEN SRC │
 ├──────────────────────────────────────────────────────────────────┤
 │                                                                    │
-│  01 — WRITING                                                      │
+│  WRITING                                                      │
 │                                                                    │
 │  The Wisp                                                         │
 │  Blog                         ← Playfair Display, 64–72px        │

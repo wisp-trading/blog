@@ -19,9 +19,6 @@ export default function BlogIndexPage() {
 
           {/* ── Page Header ─────────────────────────────────────────────── */}
           <header className="mb-16">
-            <p className="font-mono text-xs tracking-[0.3em] text-[var(--wisp-text-muted)] uppercase mb-4">
-              01 — WRITING
-            </p>
             <h1
               className="text-5xl md:text-7xl font-bold tracking-tight text-white leading-tight mb-6"
               style={{ fontFamily: "var(--font-display)" }}

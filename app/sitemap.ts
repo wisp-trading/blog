@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next"
 import { getPostSlugs } from "@/lib/posts"
 
-const SITE_URL = "https://blog.usewisp.dev"
+const SITE_URL = "https://usewisp.dev/blog"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const postSlugs = getPostSlugs()

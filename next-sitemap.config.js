@@ -13,7 +13,7 @@ function getPostSlugs() {
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: "https://blog.usewisp.dev",
+  siteUrl: "https://usewisp.dev/blog",
   generateRobotsTxt: true,
   generateIndexSitemap: false,
 

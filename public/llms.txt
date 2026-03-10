@@ -6,10 +6,10 @@ Wisp is an open-source trading bot framework written in Go. It supports multiple
 
 ## Blog
 
-- [Home](https://blog.usewisp.dev): Index of all posts
-- [Introducing Wisp](https://blog.usewisp.dev/posts/introducing-wisp): Overview of the framework, why Go, batteries-included features
-- [Agentic Trading](https://blog.usewisp.dev/posts/agentic-trading-strategies): How LLMs can run trading strategies via Wisp's agentic interface
-- [Polymarket Integration](https://blog.usewisp.dev/posts/polymarket-integration): Tutorial for connecting to Polymarket and placing first trades
+- [Home](https://usewisp.dev/blog): Index of all posts
+- [Introducing Wisp](https://usewisp.dev/blog/posts/introducing-wisp): Overview of the framework, why Go, batteries-included features
+- [Agentic Trading](https://usewisp.dev/blog/posts/agentic-trading-strategies): How LLMs can run trading strategies via Wisp's agentic interface
+- [Polymarket Integration](https://usewisp.dev/blog/posts/polymarket-integration): Tutorial for connecting to Polymarket and placing first trades
 
 ## Related
 
