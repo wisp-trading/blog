@@ -185,7 +185,7 @@ export default async function PostPage({ params }: PostPageProps) {
           <div className="max-w-[720px] mx-auto mt-16 pt-8 border-t border-white/10">
             <div className="flex items-center justify-between">
               <Link
-                href="/blog"
+                href="/"
                 className="inline-flex items-center gap-2 font-mono text-xs tracking-wider text-[var(--wisp-text-disabled)] hover:text-[var(--wisp-teal)] transition-colors duration-300"
               >
                 ← MORE POSTS
