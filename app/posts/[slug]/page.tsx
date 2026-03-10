@@ -25,7 +25,7 @@ const mdxOptions = {
   },
 }
 
-const SITE_URL = "https://blog.usewisp.dev"
+const SITE_URL = "https://usewisp.dev/blog"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

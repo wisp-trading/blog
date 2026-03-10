@@ -1,6 +1,9 @@
 import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
+  // Add /blog prefix to all routes when accessed through usewisp.dev/blog
+  basePath: process.env.NODE_ENV === "production" ? "/blog" : undefined,
+
   // Load assets from blog subdomain so they work when proxied through usewisp.dev/blog
   assetPrefix: process.env.NODE_ENV === "production" ? "https://blog.usewisp.dev" : undefined,
 
