@@ -1,7 +1,8 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  // Allow .md and .mdx files to be used as Next.js pages (forward-compatible)
+  pageExtensions: ["ts", "tsx", "md", "mdx"],
+}
 
-export default nextConfig;
+export default nextConfig
