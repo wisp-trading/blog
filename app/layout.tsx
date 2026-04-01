@@ -29,11 +29,11 @@ const SITE_URL = "https://usewisp.dev/blog"
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Wisp Blog — Trading Bot Framework",
+    default: "Wisp Blog — Go Trading Bot Framework & Algorithmic Trading",
     template: "%s | Wisp Blog",
   },
   description:
-    "Insights on algorithmic trading, Go development, agentic strategies, and the Wisp framework. Built by traders, for builders.",
+    "Guides, tutorials, and deep-dives on algorithmic trading, Go development, backtesting, and the Wisp framework. Build crypto trading bots that run in production.",
   keywords: [
     "trading bot",
     "algorithmic trading",
@@ -95,12 +95,49 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Wisp",
+    url: "https://usewisp.dev",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://usewisp.dev/logo-transparent.svg",
+    },
+    sameAs: [
+      "https://github.com/wisp-trading/wisp",
+      "https://twitter.com/wisptrading",
+    ],
+  }
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Wisp Blog",
+    url: SITE_URL,
+    description:
+      "Guides, tutorials, and deep-dives on algorithmic trading, Go development, backtesting, and the Wisp framework.",
+    publisher: {
+      "@type": "Organization",
+      name: "Wisp",
+      url: "https://usewisp.dev",
+    },
+  }
+
   return (
     <html
       lang="en"
       className={`${playfair.variable} ${inter.variable} ${geistMono.variable}`}
     >
       <body className="antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
         <div className="noise-overlay" />
         {children}
         <GoogleAnalytics gaId="G-WSNWFHXWJ3" />

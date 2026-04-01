@@ -1,24 +1,24 @@
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { RelatedPosts } from "@/components/related-posts"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
-import { MDXRemote } from "next-mdx-remote/rsc"
+import { MDXRemote, type MDXRemoteProps } from "next-mdx-remote/rsc"
 import rehypePrettyCode from "rehype-pretty-code"
 import remarkGfm from "remark-gfm"
-import { getPost, getPostSlugs } from "@/lib/posts"
+import { getPost, getPostSlugs, getRelatedPosts } from "@/lib/posts"
 import { formatDate } from "@/lib/utils"
 
-const mdxOptions = {
+const mdxOptions: MDXRemoteProps["options"] = {
   mdxOptions: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [
       [
         rehypePrettyCode,
         {
-          // Dark theme that matches the Wisp aesthetic
           theme: "github-dark-dimmed",
-          keepBackground: false, // We control the bg via CSS
+          keepBackground: false,
         },
       ],
     ],
@@ -87,6 +87,8 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound()
   }
 
+  const relatedPosts = getRelatedPosts(slug)
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -117,11 +119,34 @@ export default async function PostPage({ params }: PostPageProps) {
     inLanguage: "en-US",
   }
 
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Wisp Blog",
+        item: SITE_URL,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: post.title,
+        item: `${SITE_URL}/posts/${post.slug}`,
+      },
+    ],
+  }
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
       <Navbar />
 
@@ -178,8 +203,11 @@ export default async function PostPage({ params }: PostPageProps) {
 
           {/* Article body */}
           <article className="prose mx-auto">
-            <MDXRemote source={post.content} options={mdxOptions as any} />
+            <MDXRemote source={post.content} options={mdxOptions} />
           </article>
+
+          {/* Related posts */}
+          <RelatedPosts posts={relatedPosts} />
 
           {/* Post footer */}
           <div className="max-w-[720px] mx-auto mt-16 pt-8 border-t border-white/10">

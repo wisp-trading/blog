@@ -3,7 +3,7 @@ title: "What is Polymarket? A Crypto Trader's Guide to Prediction Markets"
 excerpt: "Polymarket lets you trade YES/NO contracts on real-world events using a central limit order book. Here's how it works, how positions resolve, and how it compares to trading on a crypto exchange."
 date: "2026-03-10"
 readingTime: "6 min read"
-tags: ["Polymarket", "Prediction Markets", "Crypto", "Go"]
+tags: ["Polymarket", "Prediction Markets", "Crypto", "Go", "Wisp"]
 author: "Wisp Team"
 featured: false
 ---
@@ -133,13 +133,13 @@ The interface treats prediction markets as a first-class market type alongside s
 ```go
 func (s *myStrategy) run(ctx context.Context) {
     // Fetch the market by its Polymarket slug
-    market, err := s.k.Predict().GetMarketBySlug("will-btc-reach-100k-in-2026", connector.Polymarket)
+    market, err := s.wisp.Predict().GetMarketBySlug("will-btc-reach-100k-in-2026", connector.Polymarket)
     if err != nil {
         return
     }
 
     // Register it so the ingestor starts streaming orderbook data
-    s.k.Predict().WatchMarket(connector.Polymarket, market)
+    s.wisp.Predict().WatchMarket(connector.Polymarket, market)
 
     yesOutcome := market.Outcomes[0] // YES
 
@@ -151,14 +151,14 @@ func (s *myStrategy) run(ctx context.Context) {
         case <-ctx.Done():
             return
         case <-ticker.C:
-            ob, err := s.k.Predict().Orderbook(connector.Polymarket, market, yesOutcome)
+            ob, err := s.wisp.Predict().Orderbook(connector.Polymarket, market, yesOutcome)
             if err != nil {
                 continue
             }
 
             // ob.Bids and ob.Asks are prices expressed as probabilities (0.0–1.0)
             // Place a buy if the ask is below your fair value estimate
-            signal, _ := s.k.Predict().PredictionSignal(s.GetName()).
+            signal := s.wisp.Predict().PredictionSignal(s.GetName()).
                 Buy(market, yesOutcome, connector.Polymarket,
                     numerical.NewFromFloat(100),   // shares
                     numerical.NewFromFloat(0.65),  // max price (65¢ per share)
@@ -166,7 +166,14 @@ func (s *myStrategy) run(ctx context.Context) {
                 ).
                 Build()
 
-            s.k.Emit(signal)
+            s.wisp.Emit(signal)
+
+            s.EmitStatus(strategy.StrategyStatus{
+                Summary: "Monitoring YES orderbook",
+                Metadata: map[string]interface{}{
+                    "best_ask": ob.BestAsk().String(),
+                },
+            })
         }
     }
 }

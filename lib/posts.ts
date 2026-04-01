@@ -98,9 +98,24 @@ export function getPost(slug: string): PostWithContent {
 }
 
 /**
- * Returns all slugs — used by generateStaticParams so Vercel can
- * statically generate every post route at build time.
+ * Returns up to `limit` posts that share the most tags with the given slug.
+ * The source post itself is excluded.
  */
+export function getRelatedPosts(slug: string, limit = 3): Post[] {
+  const all = getPosts()
+  const source = all.find((p) => p.slug === slug)
+  if (!source) return all.filter((p) => p.slug !== slug).slice(0, limit)
+
+  return all
+    .filter((p) => p.slug !== slug)
+    .map((p) => ({
+      post: p,
+      score: p.tags.filter((t) => source.tags.includes(t)).length,
+    }))
+    .sort((a, b) => b.score - a.score || (a.post.date < b.post.date ? 1 : -1))
+    .slice(0, limit)
+    .map(({ post }) => post)
+}
 export function getPostSlugs(): string[] {
   if (!fs.existsSync(POSTS_DIR)) return []
 

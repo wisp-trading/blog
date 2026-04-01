@@ -77,17 +77,18 @@ import (
     "github.com/wisp-trading/sdk/pkg/types/wisp/numerical"
 )
 
-func NewStrategy(k wisp.Wisp) strategy.Strategy {
-    s := &momentumStrategy{k: k}
-    s.BaseStrategy = *strategy.NewBaseStrategy(strategy.BaseStrategyConfig{
-        Name: "momentum",
-    })
-    return s
+func NewStrategy(w wisp.Wisp) strategy.Strategy {
+    return &momentumStrategy{
+        BaseStrategy: strategy.NewBaseStrategy(strategy.BaseStrategyConfig{
+            Name: "momentum",
+        }),
+        wisp: w,
+    }
 }
 
 type momentumStrategy struct {
-    strategy.BaseStrategy
-    k wisp.Wisp
+    *strategy.BaseStrategy
+    wisp wisp.Wisp
 }
 
 func (s *momentumStrategy) Start(ctx context.Context) error {
@@ -98,42 +99,42 @@ func (s *momentumStrategy) run(ctx context.Context) {
     ticker := time.NewTicker(5 * time.Second)
     defer ticker.Stop()
 
-    btc := s.k.Asset("BTC")
-    usdt := s.k.Asset("USDT")
-    pair := s.k.Pair(btc, usdt)
+    btc := s.wisp.Asset("BTC")
+    usdt := s.wisp.Asset("USDT")
+    pair := s.wisp.Pair(btc, usdt)
 
-    s.k.Perp().WatchPair(connector.Hyperliquid, pair)
+    s.wisp.Perp().WatchPair(connector.Hyperliquid, pair)
 
     for {
         select {
         case <-ctx.Done():
             return
         case <-ticker.C:
-            klines := s.k.Perp().Klines(connector.Hyperliquid, pair, "1h", 20)
+            klines := s.wisp.Perp().Klines(connector.Hyperliquid, pair, "1h", 20)
 
-            rsi, err := s.k.Indicators().RSI(klines, 14)
+            rsi, err := s.wisp.Indicators().RSI(klines, 14)
             if err != nil {
                 continue
             }
 
             if rsi.LessThan(numerical.NewFromInt(30)) {
-                signal, err := s.k.Perp().Signal(s.GetName()).
+                signal := s.wisp.Perp().Signal(s.GetName()).
                     Buy(pair, connector.Hyperliquid, numerical.NewFromFloat(0.1)).
                     Build()
-                if err != nil {
-                    continue
-                }
-                s.k.Emit(signal)
-                s.Emit(signal)
+
+                s.wisp.Emit(signal)
             } else if rsi.GreaterThan(numerical.NewFromInt(70)) {
-                signal, err := s.k.Perp().Signal(s.GetName()).
+                signal := s.wisp.Perp().Signal(s.GetName()).
                     Sell(pair, connector.Hyperliquid, numerical.NewFromFloat(0.1)).
                     Build()
-                if err != nil {
-                    continue
-                }
-                s.k.Emit(signal)
+
+                s.wisp.Emit(signal)
             }
+
+            s.EmitStatus(strategy.StrategyStatus{
+                Summary: "RSI check complete",
+                Metadata: map[string]interface{}{"rsi": rsi.String()},
+            })
         }
     }
 }
@@ -143,19 +144,21 @@ Four things to notice here.
 
 First, strategies are **self-directed**. You own the run loop — the ticker interval, the tick logic, and the shutdown path via `ctx.Done()`. The orchestrator only manages lifecycle (`Start`/`Stop`); it never drives execution on your behalf.
 
-Second, the `wisp.Wisp` interface is the only dependency. It gives you access to market data via domain-scoped objects (`s.k.Spot()`, `s.k.Perp()`, `s.k.Predict()`), indicators (`s.k.Indicators()`), and logging (`s.k.Log()`). Everything goes through one typed handle.
+Second, the `wisp.Wisp` interface is the only dependency. It gives you access to market data via domain-scoped objects (`s.wisp.Spot()`, `s.wisp.Perp()`, `s.wisp.Predict()`), indicators (`s.wisp.Indicators()`), and logging (`s.wisp.Log()`). Everything goes through one typed handle.
 
-Third, indicators take pre-fetched klines, not just an asset name. You fetch klines explicitly — `s.k.Perp().Klines(exchange, pair, interval, limit)` — and pass them to the indicator. This keeps data fetching visible in your strategy and lets multiple indicators share the same kline window without redundant store reads.
+Third, indicators take pre-fetched klines, not just an asset name. You fetch klines explicitly — `s.wisp.Perp().Klines(exchange, pair, interval, limit)` — and pass them to the indicator. This keeps data fetching visible in your strategy and lets multiple indicators share the same kline window without redundant store reads.
 
-Fourth, signal builders live on the domain objects, not on `wisp.Wisp` directly. A perp signal is built via `s.k.Perp().Signal(name)`, a spot signal via `s.k.Spot().Signal(name)`. `Build()` returns `(Signal, error)`, so errors are explicit. You emit the signal in two ways: `s.k.Emit(signal)` routes it to the executor, `s.Emit(signal)` (on `BaseStrategy`) publishes it to the observable signals channel.
+Fourth, `Build()` returns a `Signal` directly — no error return. Signal emission is non-blocking: `s.wisp.Emit(signal)` pushes the signal into a buffered channel that the executor reads concurrently. `s.EmitStatus(...)` records a status snapshot to the ring buffer for the monitoring dashboard.
 
 A multi-leg spot order — buy on one exchange, sell on another — is a single fluent expression:
 
 ```go
-signal, err := s.k.Spot().Signal(s.GetName()).
+signal := s.wisp.Spot().Signal(s.GetName()).
     Buy(pair, opp.BuyExchange, quantity).
     Sell(pair, opp.SellExchange, quantity).
     Build()
+
+s.wisp.Emit(signal)
 ```
 
 ---
@@ -165,15 +168,15 @@ signal, err := s.k.Spot().Signal(s.GetName()).
 The SDK ships with a standard set of technical indicators, accessible through `s.k.Indicators()`. All indicators take a `[]connector.Kline` slice — fetch klines once, reuse them across multiple calls:
 
 ```go
-klines := s.k.Perp().Klines(connector.Hyperliquid, pair, "1h", 60)
+klines := s.wisp.Perp().Klines(connector.Hyperliquid, pair, "1h", 60)
 
-rsi, _   := s.k.Indicators().RSI(klines, 14)
-macd, _  := s.k.Indicators().MACD(klines, 12, 26, 9)
-bb, _    := s.k.Indicators().BollingerBands(klines, 20, 2.0)
-ema, _   := s.k.Indicators().EMA(klines, 50)
-sma, _   := s.k.Indicators().SMA(klines, 200)
-atr, _   := s.k.Indicators().ATR(klines, 14)
-stoch, _ := s.k.Indicators().Stochastic(klines, 14, 3)
+rsi, _   := s.wisp.Indicators().RSI(klines, 14)
+macd, _  := s.wisp.Indicators().MACD(klines, 12, 26, 9)
+bb, _    := s.wisp.Indicators().BollingerBands(klines, 20, 2.0)
+ema, _   := s.wisp.Indicators().EMA(klines, 50)
+sma, _   := s.wisp.Indicators().SMA(klines, 200)
+atr, _   := s.wisp.Indicators().ATR(klines, 14)
+stoch, _ := s.wisp.Indicators().Stochastic(klines, 14, 3)
 ```
 
 All indicators return typed `numerical.Decimal` values (or result structs for multi-value indicators like MACD and Bollinger Bands). You call `.LessThan()`, `.GreaterThan()`, `.Add()`, etc. directly — no float64 comparisons, no precision bugs from plain arithmetic.
