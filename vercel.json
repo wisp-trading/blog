@@ -1,9 +1,0 @@
-{
-  "redirects": [
-    {
-      "source": "/:path*",
-      "destination": "https://usewisp.dev/blog/:path*",
-      "permanent": true
-    }
-  ]
-}
