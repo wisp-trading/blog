@@ -247,7 +247,7 @@ s.wisp.Spot().WatchPair(connector.Bybit, pair)
 bybitOB, _ := s.wisp.Spot().OrderBook(connector.Bybit, pair)
 ```
 
-**Add prediction market trading.** Wisp's `Predict()` domain connects to Polymarket with the same interface pattern — see [What is Polymarket?](/posts/what-is-polymarket) for the full walkthrough.
+**Add prediction market trading.** Wisp's `Predict()` domain connects to Polymarket with the same interface pattern — see [What is Polymarket?](/blog/posts/what-is-polymarket) for the full walkthrough.
 
 Full SDK reference: [usewisp.dev/docs](https://usewisp.dev/docs)
 
@@ -255,7 +255,7 @@ Full SDK reference: [usewisp.dev/docs](https://usewisp.dev/docs)
 
 ## Related Reading
 
-- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/posts/introducing-wisp)
-- [Why Go for Trading Bots? The Case Against Python in Production](/posts/why-go-for-trading-bots)
-- [Backtesting 101: How to Validate a Strategy Before Going Live](/posts/backtesting-101)
+- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/blog/posts/introducing-wisp)
+- [Why Go for Trading Bots? The Case Against Python in Production](/blog/posts/why-go-for-trading-bots)
+- [Backtesting 101: How to Validate a Strategy Before Going Live](/blog/posts/backtesting-101)
 

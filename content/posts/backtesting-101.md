@@ -45,7 +45,7 @@ If you're backtesting on assets that exist today, you're automatically excluding
 ---
 ## Paper Trading vs. Backtesting
 Backtesting runs against historical data; paper trading runs in real time with live market data but without real capital. Both are validation tools with different trade-offs.
-Backtesting is fast — you can test 3 years of history in seconds. Paper trading takes real time but eliminates look-ahead bias and tests real fill mechanics. See [Paper Trading vs. Backtesting](/posts/paper-trading-vs-backtesting) for a full comparison.
+Backtesting is fast — you can test 3 years of history in seconds. Paper trading takes real time but eliminates look-ahead bias and tests real fill mechanics. See [Paper Trading vs. Backtesting](/blog/posts/paper-trading-vs-backtesting) for a full comparison.
 The right workflow:
 1. Backtest on a multi-year in-sample window
 2. Walk-forward test on out-of-sample data
@@ -60,7 +60,7 @@ Until that ships, the recommended workflow is:
 
 1. **Validate in Python** using vectorbt or backtrader with historical OHLCV data from your target exchanges
 2. **Port the live strategy to Wisp** — indicator logic translates directly. RSI(14), MACD(12,26,9), and Bollinger Bands(20,2) are the same calculation in any language
-3. **Paper trade with Wisp** before deploying real capital (see [Paper Trading vs. Backtesting](/posts/paper-trading-vs-backtesting))
+3. **Paper trade with Wisp** before deploying real capital (see [Paper Trading vs. Backtesting](/blog/posts/paper-trading-vs-backtesting))
 4. **Deploy live** — Wisp's process model runs each strategy in an isolated OS process with persistent state and clean crash recovery
 
 Once you're ready to go live, the Wisp strategy looks like this:
@@ -108,6 +108,6 @@ func (s *RSIStrategy) run(ctx context.Context) {
 The indicator thresholds you tuned during backtesting map directly into this code. No reimplementation. Full SDK reference: [usewisp.dev/docs](https://usewisp.dev/docs)
 ---
 ## Related Reading
-- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/posts/introducing-wisp)
-- [Paper Trading vs. Backtesting: Which One Do You Need?](/posts/paper-trading-vs-backtesting)
-- [How to Build Your First Trading Bot in Go](/posts/how-to-build-trading-bot-go)
+- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/blog/posts/introducing-wisp)
+- [Paper Trading vs. Backtesting: Which One Do You Need?](/blog/posts/paper-trading-vs-backtesting)
+- [How to Build Your First Trading Bot in Go](/blog/posts/how-to-build-trading-bot-go)

@@ -135,7 +135,7 @@ The entire Wisp SDK is typed. If you pass the wrong type to a signal builder, th
 
 ## When Python Is Still the Right Choice
 
-- **Research and backtesting**: Python's libraries (vectorbt, backtrader, pandas) are faster to work with. Run your backtests in Python — see [Backtesting 101](/posts/backtesting-101).
+- **Research and backtesting**: Python's libraries (vectorbt, backtrader, pandas) are faster to work with. Run your backtests in Python — see [Backtesting 101](/blog/posts/backtesting-101).
 - **Data analysis and visualisation**: matplotlib and pandas are genuinely excellent.
 - **ML feature pipelines**: PyTorch and scikit-learn live in Python.
 
@@ -159,9 +159,9 @@ Wisp ships with exchange connectors for Hyperliquid, Bybit, Binance, Paradex, an
 
 ## Related Reading
 
-- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/posts/introducing-wisp)
-- [How to Build Your First Trading Bot in Go with Wisp](/posts/how-to-build-trading-bot-go)
-- [Go vs Python for Trading Bots: A Direct Comparison](/posts/go-vs-python-trading-bots)
+- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/blog/posts/introducing-wisp)
+- [How to Build Your First Trading Bot in Go with Wisp](/blog/posts/how-to-build-trading-bot-go)
+- [Go vs Python for Trading Bots: A Direct Comparison](/blog/posts/go-vs-python-trading-bots)
 
 Most algorithmic trading engineers default to Python. The ecosystem is enormous, the research tooling is mature, and everyone has already written their exchange connector in it. Python is the path of least resistance.
 
@@ -291,7 +291,7 @@ Full SDK documentation: [usewisp.dev/docs](https://usewisp.dev/docs)
 
 ## Related Reading
 
-- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/posts/introducing-wisp)
-- [How to Build Your First Trading Bot in Go](/posts/how-to-build-trading-bot-go)
-- [Go vs Python for Trading Bots: A Direct Comparison](/posts/go-vs-python-trading-bots)
+- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/blog/posts/introducing-wisp)
+- [How to Build Your First Trading Bot in Go](/blog/posts/how-to-build-trading-bot-go)
+- [Go vs Python for Trading Bots: A Direct Comparison](/blog/posts/go-vs-python-trading-bots)
 

@@ -28,7 +28,7 @@ Backtesting is running a strategy against historical price data to simulate how 
 - Whether your live code actually works
 - How the strategy behaves on data it hasn't seen yet (unless you walk-forward test)
 
-For a deeper dive on backtest methodology, see [Backtesting 101](/posts/backtesting-101).
+For a deeper dive on backtest methodology, see [Backtesting 101](/blog/posts/backtesting-101).
 
 ---
 
@@ -167,7 +167,7 @@ Paper trading mode (with a simulated executor) is on the Wisp roadmap alongside 
 
 ## Related Reading
 
-- [Backtesting 101: How to Validate a Trading Strategy Before Going Live](/posts/backtesting-101)
-- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/posts/introducing-wisp)
-- [How to Build Your First Trading Bot in Go](/posts/how-to-build-trading-bot-go)
+- [Backtesting 101: How to Validate a Trading Strategy Before Going Live](/blog/posts/backtesting-101)
+- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/blog/posts/introducing-wisp)
+- [How to Build Your First Trading Bot in Go](/blog/posts/how-to-build-trading-bot-go)
 

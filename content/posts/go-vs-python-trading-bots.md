@@ -133,7 +133,7 @@ Python trading frameworks typically require you to build your own monitoring: Gr
 
 ## Where Python Still Wins
 
-**Use Python for research.** vectorbt, backtrader, pandas, and matplotlib are the right tools for data exploration and backtesting. See [Backtesting 101](/posts/backtesting-101) for the recommended validation workflow before deploying live.
+**Use Python for research.** vectorbt, backtrader, pandas, and matplotlib are the right tools for data exploration and backtesting. See [Backtesting 101](/blog/posts/backtesting-101) for the recommended validation workflow before deploying live.
 
 **Use Python for ML.** If your strategy involves PyTorch or scikit-learn feature pipelines, that work stays in Python.
 
@@ -155,9 +155,9 @@ Wisp generates a project scaffold with `config.yml`, `exchanges.yml`, and a temp
 
 ## Related Reading
 
-- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/posts/introducing-wisp)
-- [Why Go for Trading Bots? The Case Against Python in Production](/posts/why-go-for-trading-bots)
-- [How to Build Your First Trading Bot in Go with Wisp](/posts/how-to-build-trading-bot-go)
+- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/blog/posts/introducing-wisp)
+- [Why Go for Trading Bots? The Case Against Python in Production](/blog/posts/why-go-for-trading-bots)
+- [How to Build Your First Trading Bot in Go with Wisp](/blog/posts/how-to-build-trading-bot-go)
 
 # Go vs Python for Trading Bots: A Direct Comparison
 
@@ -232,7 +232,7 @@ Go has no pandas equivalent, no mature backtesting framework (Wisp has this on t
 
 The answer most production trading shops converge on: **research in Python, live trading in Go.**
 
-1. Use Python (pandas, vectorbt) to explore data and backtest strategy ideas — see [Backtesting 101](/posts/backtesting-101)
+1. Use Python (pandas, vectorbt) to explore data and backtest strategy ideas — see [Backtesting 101](/blog/posts/backtesting-101)
 2. Validate thoroughly on out-of-sample data
 3. Implement the live version in Go with Wisp — the indicator logic ports in a few hours
 4. Deploy as a single binary; monitor from the terminal UI
@@ -271,7 +271,7 @@ Full documentation: [usewisp.dev/docs](https://usewisp.dev/docs)
 
 ## Related Reading
 
-- [Why Go for Trading Bots? The Case Against Python in Production](/posts/why-go-for-trading-bots)
-- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/posts/introducing-wisp)
-- [How to Build Your First Trading Bot in Go](/posts/how-to-build-trading-bot-go)
+- [Why Go for Trading Bots? The Case Against Python in Production](/blog/posts/why-go-for-trading-bots)
+- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/blog/posts/introducing-wisp)
+- [How to Build Your First Trading Bot in Go](/blog/posts/how-to-build-trading-bot-go)
 

@@ -212,7 +212,7 @@ mkdir spread-bot && cd spread-bot
 wisp  # → Create New Project
 ```
 
-Step-by-step setup guide: [How to Build Your First Trading Bot in Go with Wisp](/posts/how-to-build-trading-bot-go)
+Step-by-step setup guide: [How to Build Your First Trading Bot in Go with Wisp](/blog/posts/how-to-build-trading-bot-go)
 
 Full SDK reference: [usewisp.dev/docs](https://usewisp.dev/docs)
 
@@ -220,7 +220,7 @@ Full SDK reference: [usewisp.dev/docs](https://usewisp.dev/docs)
 
 ## Related Reading
 
-- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/posts/introducing-wisp)
-- [Why Go for Trading Bots? The Case Against Python in Production](/posts/why-go-for-trading-bots)
-- [How to Build Your First Trading Bot in Go with Wisp](/posts/how-to-build-trading-bot-go)
+- [Go Algorithmic Trading Framework: Build Crypto Bots That Run in Production](/blog/posts/introducing-wisp)
+- [Why Go for Trading Bots? The Case Against Python in Production](/blog/posts/why-go-for-trading-bots)
+- [How to Build Your First Trading Bot in Go with Wisp](/blog/posts/how-to-build-trading-bot-go)
 
